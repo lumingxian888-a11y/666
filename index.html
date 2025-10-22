@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>選號系統10</title>
+<style>
+  body{font-family:sans-serif;margin:0;padding:0;text-align:center;background:#fff;}
+  #main{padding:10px; position:relative;}
+  #okBtn{position:absolute; top:10px; right:10px; padding:10px 14px; background:purple; color:white; border:none; border-radius:50%; cursor:pointer;}
+  #circleArea{position:absolute; bottom:10px; right:10px; display:flex; flex-direction:column-reverse; gap:5px;}
+  .circle{width:30px;height:30px;border-radius:50%; display:flex; justify-content:center; align-items:center; color:white; font-weight:bold; visibility:hidden;}
+  .red{background:red;} .blue{background:blue;} .green{background:green;}
+  #tableArea{margin-top:60px;}
+  table{margin:auto; border-collapse:collapse;}
+  td{width:40px;height:40px; text-align:center; vertical-align:middle; border:1px solid #ccc; font-weight:bold; color:white;}
+  #popup{position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.3); display:none; justify-content:center; align-items:center;}
+  #popupContent{background:#fff; padding:10px; border-radius:8px; display:grid; grid-template-columns: repeat(5,50px); gap:5px; justify-content:center;}
+  .numBtn{width:50px;height:50px;border-radius:50%; border:1px solid #000; display:flex; justify-content:center; align-items:center; cursor:pointer; background:white; color:black; font-weight:bold;}
+  .numBtn.used{background:#ccc; color:#666; cursor:default;}
+  #returnBtn{background:black;color:white;}
+</style>
+</head>
+<body>
+<div id="main">
+  <button id="okBtn">OK</button>
+  <div id="circleArea">
+    <div id="greenCircle" class="circle green">3</div>
+    <div id="blueCircle" class="circle blue">2</div>
+    <div id="redCircle" class="circle red">1</div>
+  </div>
+  <div id="tableArea">
+    <table><tr id="numRow"></tr></table>
+  </div>
+</div>
+
+<div id="popup">
+  <div id="popupContent"></div>
+</div>
+
+<script>
+const okBtn=document.getElementById('okBtn');
+const popup=document.getElementById('popup');
+const popupContent=document.getElementById('popupContent');
+const circleArea=document.getElementById('circleArea');
+const redCircle=document.getElementById('redCircle');
+const blueCircle=document.getElementById('blueCircle');
+const greenCircle=document.getElementById('greenCircle');
+const numRow=document.getElementById('numRow');
+
+let selected=[];
+
+function showCircles(){
+  redCircle.style.visibility='visible';
+  blueCircle.style.visibility='visible';
+  greenCircle.style.visibility='visible';
+}
+function hideCircles(){
+  redCircle.style.visibility='hidden';
+  blueCircle.style.visibility='hidden';
+  greenCircle.style.visibility='hidden';
+}
+function updateTable(){
+  numRow.innerHTML='';
+  const colors=['red','blue','green'];
+  selected.forEach((num,i)=>{
+    const td=document.createElement('td');
+    td.textContent=num;
+    td.className=colors[i];
+    numRow.appendChild(td);
+  });
+}
+
+okBtn.onclick=function(){
+  //開啟彈框
+  popup.style.display='flex';
+  hideCircles();
+  numRow.innerHTML='';
+  selected=[];
+  popupContent.innerHTML='';
+  
+  //39號 + 返回
+  const returnBtn=document.createElement('div');
+  returnBtn.textContent='返回';
+  returnBtn.className='numBtn';
+  returnBtn.id='returnBtn';
+  popupContent.appendChild(returnBtn);
+
+  for(let i=1;i<=39;i++){
+    const btn=document.createElement('div');
+    btn.textContent=i.toString().padStart(2,'0');
+    btn.className='numBtn';
+    popupContent.appendChild(btn);
+
+    btn.onclick=function(){
+      if(selected.length>=3 || btn.classList.contains('used')) return;
+      selected.push(btn.textContent);
+      const colors=['red','blue','green'];
+      btn.style.background=colors[selected.length-1];
+      btn.style.color='white';
+      btn.classList.add('used');
+    }
+  }
+
+  returnBtn.onclick=function(){
+    popup.style.display='none';
+    showCircles();
+    updateTable();
+  }
+}
+</script>
+</body>
+</html>
