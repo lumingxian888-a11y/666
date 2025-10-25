@@ -1,0 +1,20 @@
+body{font-family:Arial,sans-serif;padding:16px;}
+h3{margin:8px 0;}
+.grid{display:grid;grid-template-columns:repeat(3,56px);gap:8px;margin-bottom:8px;}
+.grid input{width:56px;height:56px;text-align:center;font-size:18px;color:red;box-sizing:border-box;}
+#numpad{margin-top:10px;}
+#numpad > div{display:flex;gap:6px;margin-bottom:6px;}
+#numpad button{width:40px;height:40px;font-size:16px;cursor:pointer;}
+#controls{margin-top:10px;margin-bottom:6px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+table{border-collapse:collapse;margin-top:12px;width:100%;}
+td,th{border:1px solid #999;padding:6px;text-align:center;white-space:nowrap;font-size:14px;}
+.hit1{color:green;font-weight:700;}
+.hit2{color:red;font-weight:700;}
+.hit3{color:blue;font-weight:700;}
+.errorFlash{background-color:pink;transition:background-color .3s;}
+button:active{transform:translateY(1px);}
+@media (max-width:600px){
+  .grid{grid-template-columns:repeat(3,44px);}
+  .grid input{width:44px;height:44px;font-size:16px;}
+  #numpad button{width:36px;height:36px;}
+}
