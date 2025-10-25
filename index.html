@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>539 編輯器</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <h3>3×3 編輯器（01–39）</h3>
+  <div class="grid" id="editor"></div>
+  <button id="clearBtn">清除全部</button>
+  <div id="numpad"></div>
+
+  <div id="controls">
+    <label>起始日期：
+      <input type="date" id="startDate">
+    </label>
+    <button id="filterBtn">查詢</button>
+    <button id="showAllBtn">顯示全部</button>
+  </div>
+
+  <h3>開獎資料（把你的 &lt;tr&gt;... 貼在 &lt;tbody&gt;）</h3>
+  <table id="draws">
+    <thead>
+      <tr><th>日期</th><th>星期</th><th colspan="5">號碼</th></tr>
+    </thead>
+    <tbody>
+      <!-- 把資料貼在這裡 (每行 <tr>...</tr>) -->
+    </tbody>
+  </table>
+
+  <script src="script.js"></script>
+</body>
+</html>
