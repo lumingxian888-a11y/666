@@ -2,28 +2,63 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<title>抓539號碼</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>539 最新號碼一鍵抓</title>
+<style>
+body{font-family:"Noto Sans TC", Arial, sans-serif;text-align:center;padding:30px;}
+h1{font-size:1.8rem;margin-bottom:15px;}
+.nums{font-size:2rem;margin:20px 0;letter-spacing:12px;}
+button{padding:10px 20px;font-size:1rem;border:none;border-radius:6px;background:#0b63a3;color:#fff;cursor:pointer;}
+button:hover{background:#094a7a;}
+.notice{color:#555;margin-top:10px;}
+</style>
 </head>
 <body>
-<h3>自動抓取 lotto-8.com 539 頁面</h3>
-<button id="load">抓取最新資料</button>
-<pre id="result" style="white-space: pre-wrap; border:1px solid #999; padding:8px;"></pre>
+<h1>今彩539 最新號碼</h1>
+<div class="nums" id="latest">載入中...</div>
+<button id="copyBtn">一鍵複製號碼</button>
+<div class="notice" id="dateLabel"></div>
 
 <script>
-document.getElementById("load").addEventListener("click", () => {
-  const url = https://api.allorigins.win/raw?url=https://www.pilio.idv.tw/lto539/";
-  document.getElementById("result").innerText = "載入中...";
+const latestDiv = document.getElementById('latest');
+const dateLabel = document.getElementById('dateLabel');
+const copyBtn = document.getElementById('copyBtn');
 
-  fetch(url)
-    .then(r => r.text())
-    .then(html => {
-      document.getElementById("result").innerText = html;
-      console.log("成功抓到網頁內容");
-    })
-    .catch(err => {
-      document.getElementById("result").innerText = "抓取失敗：" + err;
-    });
+// 這裡填上你 Apps Script 部署網址
+const API_URL = 'https://script.google.com/macros/s/你的scriptID/exec';
+
+async function fetchLatest(){
+  try{
+    const res = await fetch(API_URL);
+    const data = await res.json();
+    if(data.nums && data.nums.length===5){
+      latestDiv.textContent = data.nums.map(n=>String(n).padStart(2,'0')).join(' ');
+      dateLabel.textContent = '最新開獎日期：' + data.date;
+    } else {
+      latestDiv.textContent = '無法取得號碼';
+    }
+  }catch(e){
+    latestDiv.textContent = '抓取失敗';
+  }
+}
+
+copyBtn.addEventListener('click', async ()=>{
+  const txt = latestDiv.textContent.replace(/\s+/g,',');
+  try{
+    await navigator.clipboard.writeText(txt);
+    alert('已複製號碼: ' + txt);
+  }catch(e){
+    const ta = document.createElement('textarea');
+    ta.value = txt;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    ta.remove();
+    alert('已複製號碼: ' + txt);
+  }
 });
+
+fetchLatest();
 </script>
 </body>
 </html>
