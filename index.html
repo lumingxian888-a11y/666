@@ -1,36 +1,29 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>666</title>
-  <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<title>抓539號碼</title>
 </head>
 <body>
+<h3>自動抓取 lotto-8.com 539 頁面</h3>
+<button id="load">抓取最新資料</button>
+<pre id="result" style="white-space: pre-wrap; border:1px solid #999; padding:8px;"></pre>
 
-  <h3>6666666</h3>
-  <div class="grid" id="editor"></div>
-  <button id="clearBtn">清除全部</button>
-  <div id="numpad"></div>
+<script>
+document.getElementById("load").addEventListener("click", () => {
+  const url = "https://api.allorigins.win/raw?url=https://lotto-8.com/lotto539/";
+  document.getElementById("result").innerText = "載入中...";
 
-  <div id="controls">
-    <label>起始日期：
-      <input type="date" id="startDate">
-    </label>
-    <button id="filterBtn">查詢</button>
-    <button id="showAllBtn">顯示全部</button>
-  </div>
-
-  <h3>開獎資料（把你的 &lt;tr&gt;... 貼在 &lt;tbody&gt;）</h3>
-  <table id="draws">
-    <thead>
-      <tr><th>日期</th><th>星期</th><th colspan="5">號碼</th></tr>
-    </thead>
-    <tbody>
-      <!-- 把資料貼在這裡 (每行 <tr>...</tr>) -->
-    </tbody>
-  </table>
-
-  <script src="script.js"></script>
+  fetch(url)
+    .then(r => r.text())
+    .then(html => {
+      document.getElementById("result").innerText = html;
+      console.log("成功抓到網頁內容");
+    })
+    .catch(err => {
+      document.getElementById("result").innerText = "抓取失敗：" + err;
+    });
+});
+</script>
 </body>
 </html>
